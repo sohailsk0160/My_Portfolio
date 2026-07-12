@@ -13,7 +13,7 @@ export default function Terminal() {
   const [isTyping, setIsTyping] = useState(false);
   const terminalEndRef = useRef<HTMLDivElement>(null);
 
-  const initialSequence = [
+  const initialSequence: LogLine[] = [
     { text: "ssh guest@sohail.shaikh.dev", type: "command" },
     { text: "Connecting to secure backend server in Mumbai, IN...", type: "system" },
     { text: "Connection established. SSH Session ID: 41221-MUM", type: "success" },
@@ -46,7 +46,8 @@ export default function Terminal() {
         return;
       }
 
-      const currentLine = initialSequence[currentIdx];
+      // const currentLine = initialSequence[currentIdx];
+      const currentLine: LogLine = initialSequence[currentIdx];
 
       if (!currentLine) {
         setIsTyping(false);
