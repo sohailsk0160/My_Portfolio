@@ -1,0 +1,44 @@
+Portfolio Project Overview
+=========================
+
+Project Name:
+Portfolio Website for Mohammad Sohail Shaikh
+
+What this project is:
+This is a modern personal portfolio website built to showcase the developer's profile, skills, projects, internships, certifications, and contact information in a stylish and interactive way.
+
+Main Purpose:
+- Present professional background and achievements
+- Highlight technical skills and projects
+- Provide an easy way for recruiters and clients to contact the developer
+- Create a polished personal brand online
+
+Technologies Used:
+- Next.js
+- React
+- TypeScript
+- Tailwind CSS
+- Framer Motion
+- Lucide React
+- ESLint
+
+Key Sections:
+- Hero section
+- About section
+- Education section
+- Skills section
+- Projects section
+- Internships section
+- Certifications section
+- Contact section
+- Footer
+
+Features Included:
+- Responsive design
+- Animated UI elements
+- Interactive navigation
+- Contact form and social links
+- Modern cyber-themed visual style
+
+Developer:
+Mohammad Sohail Shaikh

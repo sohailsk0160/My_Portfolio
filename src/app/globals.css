@@ -1,26 +1,176 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
+@theme {
+  --color-cyber-dark: #03000a;
+  --color-cyber-gray: #090514;
+  --color-cyber-light: #120b24;
+  --color-neon-blue: #00f3ff;
+  --color-neon-cyan: #00ddff;
+  --color-neon-purple: #bd00ff;
+  --color-neon-pink: #ff007f;
+  
+  --font-sans: var(--font-inter);
+  --font-space: var(--font-space-grotesk);
+  --font-poppins: var(--font-poppins);
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
+  --animate-glow: glow 2s ease-in-out infinite alternate;
+  --animate-float: float 6s ease-in-out infinite;
+  --animate-pulse-slow: pulseSlow 4s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+  --animate-cyber-scan: scan 8s linear infinite;
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+  @keyframes glow {
+    from {
+      text-shadow: 0 0 4px rgba(0, 243, 255, 0.6), 0 0 10px rgba(189, 0, 255, 0.4);
+    }
+    to {
+      text-shadow: 0 0 8px rgba(0, 243, 255, 0.8), 0 0 16px rgba(189, 0, 255, 0.6);
+    }
+  }
+  @keyframes float {
+    0%, 100% {
+      transform: translateY(0px) rotate(0deg);
+    }
+    50% {
+      transform: translateY(-10px) rotate(1deg);
+    }
+  }
+  @keyframes pulseSlow {
+    0%, 100% {
+      opacity: 0.9;
+    }
+    50% {
+      opacity: 0.4;
+    }
+  }
+  @keyframes scan {
+    0% {
+      transform: translateY(-100%);
+    }
+    100% {
+      transform: translateY(100%);
+    }
   }
 }
 
+:root {
+  --background: #03000a;
+  --foreground: #f1f5f9;
+}
+
 body {
-  background: var(--background);
+  background-color: var(--color-cyber-dark);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-sans);
+  overflow-x: hidden;
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+::-webkit-scrollbar-track {
+  background: #03000a;
+}
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(180deg, #bd00ff, #00f3ff);
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(180deg, #ff007f, #00f3ff);
+}
+
+/* Selection Highlight */
+::selection {
+  background: rgba(0, 243, 255, 0.3);
+  color: #ffffff;
+}
+
+/* Glassmorphism Styles */
+.glass-panel {
+  background: rgba(18, 11, 36, 0.4);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.glass-panel-glow {
+  background: rgba(18, 11, 36, 0.55);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(0, 243, 255, 0.15);
+  box-shadow: 0 0 25px rgba(0, 243, 255, 0.05);
+}
+
+.glass-navbar {
+  background: rgba(3, 0, 10, 0.65);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+/* Glow Effects */
+.glow-text-cyan {
+  text-shadow: 0 0 10px rgba(0, 243, 255, 0.5);
+}
+
+.glow-text-purple {
+  text-shadow: 0 0 10px rgba(189, 0, 255, 0.5);
+}
+
+.glow-border-cyan:hover {
+  border-color: rgba(0, 243, 255, 0.6);
+  box-shadow: 0 0 15px rgba(0, 243, 255, 0.2);
+  transition: all 0.3s ease;
+}
+
+.glow-border-purple:hover {
+  border-color: rgba(189, 0, 255, 0.6);
+  box-shadow: 0 0 15px rgba(189, 0, 255, 0.2);
+  transition: all 0.3s ease;
+}
+
+/* Custom Text Gradient helpers */
+.gradient-text-neon {
+  background: linear-gradient(135deg, #00f3ff 0%, #bd00ff 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.gradient-text-pink {
+  background: linear-gradient(135deg, #ff007f 0%, #bd00ff 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.gradient-text-cyan-blue {
+  background: linear-gradient(135deg, #00f3ff 0%, #3b82f6 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* Terminal Cursor */
+.terminal-cursor::after {
+  content: "█";
+  animation: blink 1s step-end infinite;
+}
+
+@keyframes blink {
+  50% {
+    opacity: 0;
+  }
+}
+
+/* Hide default cursor if custom is active */
+.custom-cursor-active {
+  cursor: none;
+}
+.custom-cursor-active a, 
+.custom-cursor-active button,
+.custom-cursor-active input,
+.custom-cursor-active textarea,
+.custom-cursor-active [role="button"] {
+  cursor: none;
 }
