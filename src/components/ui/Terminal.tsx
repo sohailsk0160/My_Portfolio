@@ -13,60 +13,69 @@ export default function Terminal() {
   const [isTyping, setIsTyping] = useState(false);
   const terminalEndRef = useRef<HTMLDivElement>(null);
 
-  const initialSequence: LogLine[] = [
-    { text: "ssh guest@sohail.shaikh.dev", type: "command" },
-    { text: "Connecting to secure backend server in Mumbai, IN...", type: "system" },
-    { text: "Connection established. SSH Session ID: 41221-MUM", type: "success" },
-    { text: "cat developer_profile.json", type: "command" },
-    {
-      text: `{
+  // Auto-typing sequence
+  useEffect(() => {
+    const initialSequence: LogLine[] = [
+      { text: "ssh guest@sohail.shaikh.dev", type: "command" },
+      { text: "Connecting to secure backend server in Mumbai, IN...", type: "system" },
+      { text: "Connection established. SSH Session ID: 41221-MUM", type: "success" },
+      { text: "cat developer_profile.json", type: "command" },
+      {
+        text: `{
   "name": "Mohammad Sohail Shaikh",
   "role": "Backend-Focused Software Developer",
   "focus": "Scalable APIs & AIML Digital Experiences",
   "status": "Engineering Student (Terna College)",
   "skills": ["Java", "SQL", "MERN Stack", "AWS", "Python"]
 }`, type: "output"
-    },
-    { text: "systemctl status portfolio-engine.service", type: "command" },
-    { text: "● portfolio-engine.service - Shaikh Backend Engine v1.0", type: "system" },
-    { text: "   Active: active (running) - Listening on port 8080 (REST APIs Active)", type: "success" },
-    { text: "Type 'help' to see list of custom commands.", type: "system" }
-  ];
+      },
+      { text: "systemctl status portfolio-engine.service", type: "command" },
+      { text: "● portfolio-engine.service - Shaikh Backend Engine v1.0", type: "system" },
+      { text: "   Active: active (running) - Listening on port 8080 (REST APIs Active)", type: "success" },
+      { text: "Type 'help' to see list of custom commands.", type: "system" }
+    ];
 
-  // Auto-typing sequence
-  useEffect(() => {
-    setIsTyping(true);
+    let sequenceTimeout: ReturnType<typeof setTimeout> | undefined;
 
-    let currentIdx = 0;
-    let timeout: NodeJS.Timeout;
+    const startTyping = () => {
+      setIsTyping(true);
 
-    const writeNextLine = () => {
-      if (currentIdx >= initialSequence.length) {
-        setIsTyping(false);
-        return;
-      }
+      let currentIdx = 0;
 
-      // const currentLine = initialSequence[currentIdx];
-      const currentLine: LogLine = initialSequence[currentIdx];
+      const writeNextLine = () => {
+        if (currentIdx >= initialSequence.length) {
+          setIsTyping(false);
+          return;
+        }
 
-      if (!currentLine) {
-        setIsTyping(false);
-        return;
-      }
+        const currentLine: LogLine = initialSequence[currentIdx];
 
-      setHistory((prev) => [...prev, currentLine]);
+        if (!currentLine) {
+          setIsTyping(false);
+          return;
+        }
 
-      currentIdx++;
+        setHistory((prev) => [...prev, currentLine]);
 
-      timeout = setTimeout(
-        writeNextLine,
-        currentLine.type === "command" ? 800 : 400
-      );
+        currentIdx++;
+
+        sequenceTimeout = setTimeout(
+          writeNextLine,
+          currentLine.type === "command" ? 800 : 400
+        );
+      };
+
+      sequenceTimeout = setTimeout(writeNextLine, 500);
     };
 
-    timeout = setTimeout(writeNextLine, 500);
+    const typingTimer = setTimeout(startTyping, 0);
 
-    return () => clearTimeout(timeout);
+    return () => {
+      clearTimeout(typingTimer);
+      if (sequenceTimeout) {
+        clearTimeout(sequenceTimeout);
+      }
+    };
   }, []);
 
   // Auto-scroll to bottom

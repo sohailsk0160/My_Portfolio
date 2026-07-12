@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
-import { Briefcase, Calendar, MapPin, Send, Bug, BarChart, CheckCircle2 } from "lucide-react";
+import { Calendar, MapPin, Send, Bug, CheckCircle2 } from "lucide-react";
 
 interface Internship {
   id: string;
@@ -24,6 +24,20 @@ interface InternshipsProps {
   currentTheme: "cyberpunk" | "matrix";
 }
 
+interface ApiResponse {
+  status: number;
+  statusText: string;
+  timeMs: number;
+  data?: {
+    portfolioId: string;
+    owner: string;
+    assetsValue: string;
+    status: string;
+    lastCheck: string;
+  };
+  error?: string;
+}
+
 export default function Internships({ currentTheme }: InternshipsProps) {
   const [activeTab, setActiveTab] = useState<string>("qa");
   
@@ -31,7 +45,7 @@ export default function Internships({ currentTheme }: InternshipsProps) {
   const [qaDashboardTab, setQaDashboardTab] = useState<"api" | "bugs">("api");
   const [apiEndpoint, setApiEndpoint] = useState("GET /api/v1/wealth/portfolio");
   const [apiLoading, setApiLoading] = useState(false);
-  const [apiResponse, setApiResponse] = useState<any>(null);
+  const [apiResponse, setApiResponse] = useState<ApiResponse | null>(null);
   
   const [bugTickets, setBugTickets] = useState<BugTicket[]>([
     { id: "NW-401", issue: "Database transaction timeout during high-load concurrent execution", severity: "High", status: "Open" },

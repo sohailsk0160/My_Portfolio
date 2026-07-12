@@ -15,14 +15,16 @@ export default function CustomCursor() {
   const ringCoords = useRef({ x: 0, y: 0 });
 
   useEffect(() => {
-    setMounted(true);
-    
-    // Check if the device is mobile/tablet using touch media query
-    const isTouchDevice = window.matchMedia("(pointer: coarse)").matches;
-    if (isTouchDevice) return;
+    const initCursor = window.setTimeout(() => {
+      setMounted(true);
 
-    setIsVisible(true);
-    document.body.classList.add("custom-cursor-active");
+      // Check if the device is mobile/tablet using touch media query
+      const isTouchDevice = window.matchMedia("(pointer: coarse)").matches;
+      if (isTouchDevice) return;
+
+      setIsVisible(true);
+      document.body.classList.add("custom-cursor-active");
+    }, 0);
 
     const onMouseMove = (e: MouseEvent) => {
       mouseCoords.current.x = e.clientX;
@@ -78,6 +80,7 @@ export default function CustomCursor() {
     document.addEventListener("mouseover", handleMouseOver);
 
     return () => {
+      window.clearTimeout(initCursor);
       cancelAnimationFrame(animationFrameId);
       window.removeEventListener("mousemove", onMouseMove);
       window.removeEventListener("mousedown", onMouseDown);

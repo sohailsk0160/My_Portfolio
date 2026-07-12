@@ -21,8 +21,6 @@ export default function Home() {
 
   // Loading Screen Counter
   useEffect(() => {
-    let interval: NodeJS.Timeout;
-    
     const logs = [
       { threshold: 0, text: "Initializing portfolio engine core..." },
       { threshold: 20, text: "Fetching Mohammad Sohail Shaikh profile nodes..." },
@@ -32,7 +30,7 @@ export default function Home() {
       { threshold: 100, text: "System connection stable. Access Granted." }
     ];
 
-    interval = setInterval(() => {
+    const interval = setInterval(() => {
       setLoadingPercent((prev) => {
         if (prev >= 100) {
           clearInterval(interval);
