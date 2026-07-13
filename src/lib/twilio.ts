@@ -1,6 +1,6 @@
 import twilio from "twilio";
 
-let twilioVerifyService: ReturnType<typeof twilio.default.prototype.verify.v2.services> | null = null;
+let twilioVerifyService: any = null;
 
 export function getTwilioVerify() {
   if (!process.env.TWILIO_ACCOUNT_SID || !process.env.TWILIO_AUTH_TOKEN || !process.env.TWILIO_VERIFY_SERVICE_SID) {
