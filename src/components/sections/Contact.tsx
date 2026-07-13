@@ -1,7 +1,7 @@
 "use client";
 
-import React, { useState } from "react";
-import { Phone, Mail, Send } from "lucide-react";
+import React, { useState, useEffect } from "react";
+import { Phone, Mail, Send, Check, X, Loader } from "lucide-react";
 
 interface ContactProps {
   currentTheme: "cyberpunk" | "matrix";
@@ -9,11 +9,120 @@ interface ContactProps {
 
 export default function Contact({ currentTheme }: ContactProps) {
   const gmailComposeUrl = "https://mail.google.com/mail/?view=cm&fs=1&to=sohailsk0160@gmail.com";
-  const [form, setForm] = useState({ name: "", email: "", subject: "", message: "" });
+  const [form, setForm] = useState({ 
+    name: "", 
+    email: "", 
+    mobileNumber: "",
+    subject: "", 
+    message: "" 
+  });
+  const [otp, setOtp] = useState("");
+  const [otpSent, setOtpSent] = useState(false);
+  const [otpVerified, setOtpVerified] = useState(false);
+  const [statusMessage, setStatusMessage] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
+  const [isVerifying, setIsVerifying] = useState(false);
+  const [resendTimer, setResendTimer] = useState(0);
+
+  // Countdown timer for resend button
+  useEffect(() => {
+    let interval: NodeJS.Timeout;
+    if (resendTimer > 0) {
+      interval = setInterval(() => {
+        setResendTimer((prev) => prev - 1);
+      }, 1000);
+    }
+    return () => clearInterval(interval);
+  }, [resendTimer]);
+
+  const handleSendOtp = async (e: React.MouseEvent) => {
+    e.preventDefault();
+    
+    if (!form.mobileNumber) {
+      setStatusMessage("Please enter your mobile number");
+      return;
+    }
+
+    if (!/^\d{10}$/.test(form.mobileNumber)) {
+      setStatusMessage("Please enter a valid 10-digit mobile number");
+      return;
+    }
+
+    setIsLoading(true);
+    setStatusMessage("");
+
+    try {
+      const response = await fetch("/api/otp/send", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ phoneNumber: form.mobileNumber }),
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        setStatusMessage(data.error || "Failed to send OTP");
+        return;
+      }
+
+      setOtpSent(true);
+      setOtp("");
+      setOtpVerified(false);
+      setResendTimer(60);
+      setStatusMessage(`OTP sent to +91${form.mobileNumber}`);
+      
+      setTimeout(() => setStatusMessage(""), 3000);
+    } catch (error) {
+      setStatusMessage("Network error. Please try again.");
+      console.error("Send OTP Error:", error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const handleVerifyOtp = async (e: React.MouseEvent) => {
+    e.preventDefault();
+    
+    if (!otp) {
+      setStatusMessage("Please enter the OTP");
+      return;
+    }
+
+    setIsVerifying(true);
+    setStatusMessage("");
+
+    try {
+      const response = await fetch("/api/otp/verify", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ phoneNumber: form.mobileNumber, otp }),
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        setStatusMessage(data.error || "Failed to verify OTP");
+        return;
+      }
+
+      setOtpVerified(true);
+      setStatusMessage("OTP verified successfully! ✓");
+      setTimeout(() => setStatusMessage(""), 2000);
+    } catch (error) {
+      setStatusMessage("Network error. Please try again.");
+      console.error("Verify OTP Error:", error);
+    } finally {
+      setIsVerifying(false);
+    }
+  };
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (!form.name || !form.email || !form.message) return;
+    if (!otpVerified) {
+      setStatusMessage("Please verify your mobile number with OTP first");
+      return;
+    }
 
     // Build WhatsApp message
     const message = `*New Portfolio Contact*
@@ -23,6 +132,9 @@ ${form.name}
 
 *Email:*
 ${form.email}
+
+*Mobile:*
++91${form.mobileNumber}
 
 *Subject:*
 ${form.subject}
@@ -37,7 +149,11 @@ ${form.message}`;
     window.open(whatsappUrl, "_blank");
 
     // Reset form
-    setForm({ name: "", email: "", subject: "", message: "" });
+    setForm({ name: "", email: "", mobileNumber: "", subject: "", message: "" });
+    setOtp("");
+    setOtpSent(false);
+    setOtpVerified(false);
+    setStatusMessage("");
   };
 
   return (
@@ -139,6 +255,119 @@ ${form.message}`;
             <div className="glass-panel p-8 rounded-xl border border-white/5 shadow-lg text-left h-full flex flex-col justify-center">
               
               <form onSubmit={handleSubmit} className="space-y-6">
+                {/* Mobile Number - OTP Section */}
+                <div className="space-y-3 p-4 border border-white/10 rounded-lg bg-white/[0.02]">
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    {/* Mobile Number */}
+                    <div className="space-y-1.5">
+                      <label className="text-slate-400 text-xs font-mono uppercase">Mobile Number</label>
+                      <div className="flex gap-2">
+                        <span className="px-3 py-3 bg-cyber-dark/80 border border-white/5 rounded text-white text-sm flex items-center">
+                          +91
+                        </span>
+                        <input
+                          type="tel"
+                          maxLength="10"
+                          value={form.mobileNumber}
+                          onChange={(e) => setForm({ ...form, mobileNumber: e.target.value.replace(/\D/g, '') })}
+                          className="flex-1 px-4 py-3 bg-cyber-dark/80 border border-white/5 focus:border-neon-cyan/50 focus:outline-none rounded text-white text-sm font-sans"
+                          placeholder="1234567890"
+                          disabled={otpVerified}
+                        />
+                      </div>
+                    </div>
+
+                    {/* Send OTP Button */}
+                    <div className="space-y-1.5 flex flex-col justify-end">
+                      <button
+                        type="button"
+                        onClick={handleSendOtp}
+                        disabled={otpVerified || !form.mobileNumber || isLoading || resendTimer > 0}
+                        className={`py-3 rounded-lg font-space text-xs font-semibold tracking-wider transition-all duration-300 border flex items-center justify-center gap-2
+                          ${otpVerified
+                            ? "bg-green-500/20 border-green-500/30 text-green-400 cursor-not-allowed"
+                            : resendTimer > 0
+                            ? "bg-slate-600/20 border-slate-600/30 text-slate-400 cursor-not-allowed"
+                            : "bg-neon-cyan/10 border-neon-cyan/30 text-neon-cyan hover:bg-neon-cyan/20 hover:border-neon-cyan/50"
+                          }
+                        `}
+                      >
+                        {isLoading && <Loader className="w-4 h-4 animate-spin" />}
+                        {otpVerified
+                          ? "✓ Verified"
+                          : resendTimer > 0
+                          ? `Resend in ${resendTimer}s`
+                          : otpSent
+                          ? "Resend OTP"
+                          : "Send OTP"}
+                      </button>
+                    </div>
+                  </div>
+
+                  {/* OTP Input & Verification */}
+                  {otpSent && !otpVerified && (
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-4 pt-4 border-t border-white/10">
+                      {/* OTP Input */}
+                      <div className="space-y-1.5">
+                        <label className="text-slate-400 text-xs font-mono uppercase">Enter OTP</label>
+                        <input
+                          type="text"
+                          maxLength="6"
+                          value={otp}
+                          onChange={(e) => setOtp(e.target.value.replace(/\D/g, ''))}
+                          className="w-full px-4 py-3 bg-cyber-dark/80 border border-white/5 focus:border-neon-purple/50 focus:outline-none rounded text-white text-sm font-mono tracking-widest text-center"
+                          placeholder="000000"
+                        />
+                      </div>
+
+                      {/* Verify Button */}
+                      <div className="space-y-1.5 flex flex-col justify-end">
+                        <button
+                          type="button"
+                          onClick={handleVerifyOtp}
+                          disabled={!otp || isVerifying}
+                          className={`py-3 rounded-lg font-space text-xs font-semibold tracking-wider flex items-center justify-center gap-2 transition-all duration-300 border
+                            ${!otp || isVerifying
+                              ? "bg-neon-purple/5 border-neon-purple/20 text-neon-purple/50 cursor-not-allowed"
+                              : "bg-neon-purple/10 border-neon-purple/30 text-neon-purple hover:bg-neon-purple/20 hover:border-neon-purple/50"
+                            }
+                          `}
+                        >
+                          {isVerifying ? (
+                            <>
+                              <Loader className="w-4 h-4 animate-spin" />
+                              Verifying...
+                            </>
+                          ) : (
+                            <>
+                              <Check className="w-4 h-4" />
+                              Verify OTP
+                            </>
+                          )}
+                        </button>
+                      </div>
+                    </div>
+                  )}
+
+                  {/* Status Message */}
+                  {statusMessage && (
+                    <div className={`text-xs font-mono p-2 rounded border-l-2 flex items-center gap-2
+                      ${statusMessage.includes("✓") || statusMessage.includes("successfully")
+                        ? "bg-green-500/10 border-green-500 text-green-400"
+                        : "bg-amber-500/10 border-amber-500 text-amber-300"
+                      }
+                    `}>
+                      {statusMessage.includes("✓") || statusMessage.includes("successfully") ? (
+                        <Check className="w-4 h-4 flex-shrink-0" />
+                      ) : (
+                        <X className="w-4 h-4 flex-shrink-0" />
+                      )}
+                      <span>{statusMessage}</span>
+                    </div>
+                  )}
+                </div>
+
+                {/* Name and Email */}
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
                   {/* Name */}
                   <div className="space-y-1.5">
@@ -194,15 +423,18 @@ ${form.message}`;
                 {/* Submit Button */}
                 <button
                   type="submit"
+                  disabled={!otpVerified}
                   className={`w-full py-3.5 rounded-lg font-space text-sm font-semibold tracking-wider flex items-center justify-center gap-2 transition-all duration-300 border interactive-hover
-                    ${currentTheme === "cyberpunk"
+                    ${!otpVerified
+                      ? "bg-gray-600 border-gray-600 text-gray-400 cursor-not-allowed opacity-50"
+                      : currentTheme === "cyberpunk"
                       ? "bg-gradient-to-r from-neon-blue to-neon-purple border-transparent text-white shadow-[0_0_10px_rgba(0,243,255,0.2)] hover:shadow-[0_0_15px_rgba(0,243,255,0.4)]"
                       : "bg-gradient-to-r from-green-500 to-neon-cyan border-transparent text-cyber-dark shadow-[0_0_10px_rgba(0,255,102,0.2)] hover:shadow-[0_0_15px_rgba(0,255,102,0.4)]"
                     }
                   `}
                 >
                   <Send className="w-4 h-4" />
-                  Send Message
+                  {!otpVerified ? "Verify OTP to Send" : "Send Message"}
                 </button>
               </form>
 
