@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
-import { Mail, ArrowRight, Download, Phone } from "lucide-react";
+import { Mail, ArrowRight, Download } from "lucide-react";
 import Terminal from "../ui/Terminal";
 
 interface HeroProps {
@@ -49,7 +49,7 @@ export default function Hero({ currentTheme }: HeroProps) {
 
     timer = setTimeout(handleType, typingSpeed);
     return () => clearTimeout(timer);
-  }, [subText, isDeleting, roleIdx]);
+  }, [subText, isDeleting, roleIdx, roles]);
 
   const scrollToSection = (id: string) => {
     const el = document.getElementById(id);

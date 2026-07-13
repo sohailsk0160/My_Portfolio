@@ -1,5 +1,6 @@
 import twilio from "twilio";
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 let twilioVerifyService: any = null;
 
 export function getTwilioVerify() {
@@ -20,5 +21,3 @@ export function getTwilioVerify() {
 
   return twilioVerifyService;
 }
-
-export default client;

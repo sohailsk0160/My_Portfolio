@@ -50,7 +50,7 @@ export default function Navbar({ currentTheme, setTheme }: NavbarProps) {
 
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
+  }, [navItems]);
 
   const handleNavClick = (e: React.MouseEvent, id: string) => {
     e.preventDefault();
