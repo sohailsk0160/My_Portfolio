@@ -267,7 +267,7 @@ ${form.message}`;
                         </span>
                         <input
                           type="tel"
-                          maxLength="10"
+                          maxLength={10}
                           value={form.mobileNumber}
                           onChange={(e) => setForm({ ...form, mobileNumber: e.target.value.replace(/\D/g, '') })}
                           className="flex-1 px-4 py-3 bg-cyber-dark/80 border border-white/5 focus:border-neon-cyan/50 focus:outline-none rounded text-white text-sm font-sans"
@@ -312,7 +312,7 @@ ${form.message}`;
                         <label className="text-slate-400 text-xs font-mono uppercase">Enter OTP</label>
                         <input
                           type="text"
-                          maxLength="6"
+                          maxLength={6}
                           value={otp}
                           onChange={(e) => setOtp(e.target.value.replace(/\D/g, ''))}
                           className="w-full px-4 py-3 bg-cyber-dark/80 border border-white/5 focus:border-neon-purple/50 focus:outline-none rounded text-white text-sm font-mono tracking-widest text-center"
