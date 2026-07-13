@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { twilioVerify } from "@/lib/twilio";
+import { getTwilioVerify } from "@/lib/twilio";
 import { validateIndianPhone, formatPhoneForTwilio } from "@/lib/phoneValidation";
 
 export async function POST(request: NextRequest) {
@@ -32,7 +32,7 @@ export async function POST(request: NextRequest) {
     const formattedPhone = formatPhoneForTwilio(phoneNumber);
 
     // Verify OTP via Twilio Verify
-    const verificationCheck = await twilioVerify.verificationChecks.create({
+    const verificationCheck = await getTwilioVerify().verificationChecks.create({
       to: formattedPhone,
       code: otp,
     });
