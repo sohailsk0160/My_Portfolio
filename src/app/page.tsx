@@ -3,6 +3,7 @@
 import React, { useState, useEffect } from "react";
 import CanvasParticles from "../components/ui/CanvasParticles";
 import CustomCursor from "../components/ui/CustomCursor";
+import BackToTop from "../components/ui/BackToTop";
 import Navbar from "../components/sections/Navbar";
 import Hero from "../components/sections/Hero";
 import About from "../components/sections/About";
@@ -138,6 +139,8 @@ export default function Home() {
             </div>
           </div>
         </footer>
+
+        <BackToTop />
       </div>
 
     </div>

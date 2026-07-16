@@ -3,6 +3,7 @@
 import React, { useState, useEffect } from "react";
 import { Mail, ArrowRight, Download } from "lucide-react";
 import Terminal from "../ui/Terminal";
+import ResumeDownloadModal from "../ui/ResumeDownloadModal";
 
 interface HeroProps {
   currentTheme: "cyberpunk" | "matrix";
@@ -22,6 +23,7 @@ export default function Hero({ currentTheme }: HeroProps) {
   const [roleIdx, setRoleIdx] = useState(0);
   const [subText, setSubText] = useState("");
   const [isDeleting, setIsDeleting] = useState(false);
+  const [showResumeModal, setShowResumeModal] = useState(false);
 
   useEffect(() => {
     let timer: NodeJS.Timeout;
@@ -217,13 +219,13 @@ export default function Hero({ currentTheme }: HeroProps) {
               Contact Me
             </a>
 
-            <a
-              href="/resume/Sohail_Resume.pdf"
-              download="Mohammad_Sohail_Shaikh_Resume.pdf"
+            <button
+              type="button"
+              onClick={() => setShowResumeModal(true)}
               className="px-6 py-3 rounded-lg border border-white/10 hover:border-white/30 text-white font-space text-sm font-semibold tracking-wide bg-white/5 hover:bg-white/10 transition-all duration-300 flex items-center justify-center gap-2 interactive-hover"
             >
               <Download className="w-4 h-4" /> Download Resume
-            </a>
+            </button>
           </div>
         </div>
 
@@ -232,6 +234,8 @@ export default function Hero({ currentTheme }: HeroProps) {
           <Terminal />
         </div>
       </div>
+
+      <ResumeDownloadModal isOpen={showResumeModal} onClose={() => setShowResumeModal(false)} />
     </section>
   );
 }

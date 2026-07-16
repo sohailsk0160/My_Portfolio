@@ -97,13 +97,13 @@ export default function CustomCursor() {
       {/* Small center dot */}
       <div
         ref={dotRef}
-        className="fixed top-0 left-0 w-2 h-2 rounded-full bg-neon-cyan z-50 pointer-events-none -translate-x-1/2 -translate-y-1/2 transition-transform duration-75 mix-blend-screen"
+        className="fixed top-0 left-0 w-2 h-2 rounded-full bg-neon-cyan z-[9999] pointer-events-none -translate-x-1/2 -translate-y-1/2 transition-transform duration-75 mix-blend-screen"
         style={{ willChange: "transform" }}
       />
       {/* Outer glowing trail ring */}
       <div
         ref={ringRef}
-        className={`fixed top-0 left-0 rounded-full border border-neon-blue z-50 pointer-events-none -translate-x-1/2 -translate-y-1/2 will-change-transform mix-blend-screen transition-all duration-300 ease-out shadow-[0_0_10px_rgba(0,243,255,0.4)]
+        className={`fixed top-0 left-0 rounded-full border border-neon-blue z-[9999] pointer-events-none -translate-x-1/2 -translate-y-1/2 will-change-transform mix-blend-screen transition-all duration-300 ease-out shadow-[0_0_10px_rgba(0,243,255,0.4)]
           ${isHovered ? "w-12 h-12 bg-neon-purple/20 border-neon-purple shadow-[0_0_15px_rgba(189,0,255,0.6)]" : "w-6 h-6"}
           ${isClicking ? "scale-75 bg-neon-pink/30 border-neon-pink shadow-[0_0_20px_rgba(255,0,127,0.8)]" : "scale-100"}
         `}
