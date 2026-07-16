@@ -24,7 +24,7 @@ export default function BackToTop() {
       type="button"
       onClick={scrollToTop}
       aria-label="Back to top"
-      className={`fixed bottom-6 right-6 z-40 p-3 rounded-lg border border-neon-cyan/30 bg-cyber-dark/80 backdrop-blur-md text-neon-cyan shadow-[0_0_10px_rgba(0,243,255,0.3)] hover:bg-neon-cyan/10 hover:border-neon-cyan/60 hover:shadow-[0_0_15px_rgba(0,243,255,0.5)] transition-all duration-300 interactive-hover
+      className={`fixed bottom-20 right-6 z-40 p-3 rounded-lg border border-neon-cyan/30 bg-cyber-dark/80 backdrop-blur-md text-neon-cyan shadow-[0_0_10px_rgba(0,243,255,0.3)] hover:bg-neon-cyan/10 hover:border-neon-cyan/60 hover:shadow-[0_0_15px_rgba(0,243,255,0.5)] transition-all duration-300 interactive-hover
         ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4 pointer-events-none"}
       `}
     >

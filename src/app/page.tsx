@@ -4,6 +4,7 @@ import React, { useState, useEffect } from "react";
 import CanvasParticles from "../components/ui/CanvasParticles";
 import CustomCursor from "../components/ui/CustomCursor";
 import BackToTop from "../components/ui/BackToTop";
+import ChatBot from "../components/ui/ChatBot";
 import Navbar from "../components/sections/Navbar";
 import Hero from "../components/sections/Hero";
 import About from "../components/sections/About";
@@ -141,6 +142,7 @@ export default function Home() {
         </footer>
 
         <BackToTop />
+        <ChatBot />
       </div>
 
     </div>
