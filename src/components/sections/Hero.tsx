@@ -218,7 +218,7 @@ export default function Hero({ currentTheme }: HeroProps) {
             </a>
 
             <a
-              href="/resume/Sohail's Resume.pdf"
+              href="/resume/Sohail_Resume.pdf"
               download="Mohammad_Sohail_Shaikh_Resume.pdf"
               className="px-6 py-3 rounded-lg border border-white/10 hover:border-white/30 text-white font-space text-sm font-semibold tracking-wide bg-white/5 hover:bg-white/10 transition-all duration-300 flex items-center justify-center gap-2 interactive-hover"
             >
