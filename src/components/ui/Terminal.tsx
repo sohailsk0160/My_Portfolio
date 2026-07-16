@@ -11,7 +11,7 @@ export default function Terminal() {
   const [history, setHistory] = useState<LogLine[]>([]);
   const [inputValue, setInputValue] = useState("");
   const [isTyping, setIsTyping] = useState(false);
-  const terminalEndRef = useRef<HTMLDivElement>(null);
+  const terminalBodyRef = useRef<HTMLDivElement>(null);
 
   // Auto-typing sequence
   useEffect(() => {
@@ -78,9 +78,10 @@ export default function Terminal() {
     };
   }, []);
 
-  // Auto-scroll to bottom
+  // Auto-scroll to bottom (scrolls only the terminal panel, not the page)
   useEffect(() => {
-    terminalEndRef.current?.scrollIntoView({ behavior: "smooth" });
+    const el = terminalBodyRef.current;
+    if (el) el.scrollTop = el.scrollHeight;
   }, [history]);
 
   const handleCommand = (e: React.FormEvent) => {
@@ -154,7 +155,7 @@ export default function Terminal() {
       </div>
 
       {/* Terminal Body */}
-      <div className="p-4 h-80 overflow-y-auto bg-cyber-dark/60 backdrop-blur-md flex flex-col space-y-2 select-text scrollbar-thin">
+      <div ref={terminalBodyRef} className="p-4 h-80 overflow-y-auto bg-cyber-dark/60 backdrop-blur-md flex flex-col space-y-2 select-text scrollbar-thin">
         {history.map((line, idx) => {
           let lineClass = "text-slate-300";
           if (line.type === "command") lineClass = "text-neon-cyan";
@@ -181,7 +182,6 @@ export default function Terminal() {
             <span className="w-1.5 h-4 bg-white/40 animate-pulse" />
           </div>
         )}
-        <div ref={terminalEndRef} />
       </div>
 
       {/* Terminal Input */}
