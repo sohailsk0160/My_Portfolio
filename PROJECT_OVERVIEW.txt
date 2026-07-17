@@ -4,25 +4,75 @@ Portfolio Project Overview
 Project Name:
 Portfolio Website for Mohammad Sohail Shaikh
 
-What this project is:
-This is a modern personal portfolio website built to showcase the developer's profile, skills, projects, internships, certifications, and contact information in a stylish and interactive way.
+Repository:
+https://github.com/sohailsk0160/My_Portfolio
 
-Main Purpose:
+
+1. WHAT THIS PROJECT IS
+-----------------------
+A modern, interactive personal portfolio web application built to showcase the
+developer's profile, skills, projects, internships, certifications, and contact
+information. It uses a cyber/hacker-terminal visual theme with animations,
+particle effects, and two switchable colour engines (Cyberpunk and Matrix).
+
+Beyond a static portfolio, it includes real backend functionality: a live
+visitor counter backed by a database, phone-number OTP verification for secure
+resume downloads, and an in-page assistant chatbot.
+
+
+2. MAIN PURPOSE
+---------------
 - Present professional background and achievements
-- Highlight technical skills and projects
-- Provide an easy way for recruiters and clients to contact the developer
-- Create a polished personal brand online
+- Highlight technical skills, projects, and certifications
+- Offer recruiters/clients an easy way to make contact
+- Gate the resume download behind OTP verification (spam protection)
+- Track and display live visit statistics
+- Build a polished personal brand online
 
-Technologies Used:
-- Next.js
-- React
-- TypeScript
-- Tailwind CSS
-- Framer Motion
-- Lucide React
-- ESLint
 
-Key Sections:
+3. TECHNOLOGY STACK
+-------------------
+Framework / Core:
+- Next.js 15 (App Router, API Routes / serverless functions)
+- React 19
+- TypeScript 5
+
+Styling / UI:
+- Tailwind CSS 4
+- Framer Motion (animations)
+- Lucide React (icons)
+
+Backend / Data:
+- MongoDB (via the official `mongodb` Node.js driver v7) — visit tracking
+- Node.js serverless API routes (built into Next.js)
+
+Tooling:
+- ESLint (eslint-config-next)
+
+
+4. EXTERNAL / THIRD-PARTY SERVICES
+----------------------------------
+a) MongoDB Atlas (cloud database)
+   - Purpose: stores the live visitor counter data.
+   - Collections:
+       * "stats"   -> global totals (totalVisits, uniqueDevices)
+       * "devices" -> one document per unique device (deviceId, firstVisit,
+                      lastVisit, visits)
+   - Connection is cached across serverless invocations for efficiency
+     (see src/lib/mongodb.ts).
+   - Configured via the MONGODB_URI environment variable.
+
+b) Twilio Verify (SMS OTP service)
+   - Purpose: sends and verifies a 6-digit OTP over SMS before allowing the
+     resume to be downloaded.
+   - Validates Indian 10-digit phone numbers and formats them to E.164.
+   - Includes rate-limit and invalid-number error handling.
+   - Configured via TWILIO_ACCOUNT_SID, TWILIO_AUTH_TOKEN, and
+     TWILIO_VERIFY_SERVICE_SID environment variables.
+
+
+5. KEY PAGE SECTIONS
+--------------------
 - Hero section
 - About section
 - Education section
@@ -33,12 +83,75 @@ Key Sections:
 - Contact section
 - Footer
 
-Features Included:
-- Responsive design
-- Animated UI elements
-- Interactive navigation
-- Contact form and social links
-- Modern cyber-themed visual style
 
-Developer:
+6. FEATURES
+-----------
+Visual / UX:
+- Fully responsive design (desktop, tablet, mobile)
+- Animated boot/loading terminal screen on first load
+- Two switchable visual themes: Cyberpunk and Matrix
+- Interactive particle canvas background
+- Custom trailing cursor
+- Scroll progress bar and active-section highlighting in the navbar
+- "Back to Top" button
+
+Functional:
+- Live Visitor Counter
+    * Shows total visits and unique-device count in the navbar (desktop + mobile)
+    * Counts one visit per browser session; identifies devices via a stable
+      localStorage id
+    * Backed by MongoDB (API route: /api/visits, GET + POST)
+    * Guarded against React Strict Mode double-counting
+- OTP-Gated Resume Download
+    * User enters an Indian phone number, receives an SMS OTP via Twilio,
+      and must verify it before the resume PDF downloads
+    * API routes: /api/otp/send and /api/otp/verify
+- Portfolio Assistant Chatbot
+    * Rule-based in-page assistant answering questions about the developer's
+      about/skills/projects/education/internships/certificates/resume/contact
+    * Includes quick-action buttons
+- Contact section with social links
+
+
+7. PROJECT STRUCTURE (high level)
+---------------------------------
+src/
+  app/
+    page.tsx                 -> main page assembling all sections
+    layout.tsx               -> root layout + metadata
+    api/
+      visits/route.ts        -> visitor counter API (MongoDB)
+      otp/send/route.ts      -> send OTP (Twilio)
+      otp/verify/route.ts    -> verify OTP (Twilio)
+  components/
+    sections/                -> Navbar, Hero, About, Education, Skills,
+                                Projects, Internships, Certifications, Contact
+    ui/                      -> VisitCounter, ChatBot, ResumeDownloadModal,
+                                BackToTop, CanvasParticles, CustomCursor,
+                                Terminal
+  lib/
+    mongodb.ts               -> cached MongoDB connection helper
+    twilio.ts                -> Twilio Verify client helper
+    phoneValidation.ts       -> Indian phone validation / formatting
+
+
+8. ENVIRONMENT VARIABLES
+------------------------
+Stored in .env.local (git-ignored; never committed). A template with
+placeholders lives in .env.example.
+
+- MONGODB_URI                -> MongoDB Atlas connection string
+- TWILIO_ACCOUNT_SID         -> Twilio account SID
+- TWILIO_AUTH_TOKEN          -> Twilio auth token
+- TWILIO_VERIFY_SERVICE_SID  -> Twilio Verify service SID
+
+NOTE: When deploying (e.g. Vercel), these must be added in the hosting
+provider's environment settings, otherwise the visitor counter and OTP
+features will not work in production.
+
+
+9. DEVELOPER
+------------
 Mohammad Sohail Shaikh
+Backend-Focused Software Developer | AIML Student
+Terna Engineering College, Mumbai, India
