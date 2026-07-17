@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect } from "react";
 import { Menu, X, ShieldAlert, Cpu } from "lucide-react";
+import VisitCounter from "@/components/ui/VisitCounter";
 
 interface NavbarProps {
   currentTheme: "cyberpunk" | "matrix";
@@ -94,24 +95,29 @@ export default function Navbar({ currentTheme, setTheme }: NavbarProps) {
 
       <div className="max-w-7xl mx-auto px-6 flex items-center justify-between">
         {/* Logo */}
-        <a
-          href="#hero"
-          onClick={(e) => handleNavClick(e, "hero")}
-          className="flex items-center space-x-2 font-space text-xl font-bold tracking-wider"
-        >
-          <span
-            className={`w-7 h-7 rounded flex items-center justify-center font-bold text-cyber-dark text-sm transition-all duration-300 ${
-              currentTheme === "cyberpunk"
-                ? "bg-gradient-to-r from-neon-blue to-neon-purple shadow-[0_0_10px_rgba(0,243,255,0.5)]"
-                : "bg-gradient-to-r from-green-400 to-neon-cyan shadow-[0_0_10px_rgba(0,255,102,0.5)]"
-            }`}
+        <div className="flex items-center space-x-3">
+          <a
+            href="#hero"
+            onClick={(e) => handleNavClick(e, "hero")}
+            className="flex items-center space-x-2 font-space text-xl font-bold tracking-wider"
           >
-            S
-          </span>
-          <span className="text-white hover:text-neon-cyan transition-colors">
-            SOHAIL<span className={currentTheme === "cyberpunk" ? "text-neon-purple" : "text-green-400"}>.DEV</span>
-          </span>
-        </a>
+            <span
+              className={`w-7 h-7 rounded flex items-center justify-center font-bold text-cyber-dark text-sm transition-all duration-300 ${
+                currentTheme === "cyberpunk"
+                  ? "bg-gradient-to-r from-neon-blue to-neon-purple shadow-[0_0_10px_rgba(0,243,255,0.5)]"
+                  : "bg-gradient-to-r from-green-400 to-neon-cyan shadow-[0_0_10px_rgba(0,255,102,0.5)]"
+              }`}
+            >
+              S
+            </span>
+            <span className="text-white hover:text-neon-cyan transition-colors">
+              SOHAIL<span className={currentTheme === "cyberpunk" ? "text-neon-purple" : "text-green-400"}>.DEV</span>
+            </span>
+          </a>
+
+          {/* Live visit / unique device counter */}
+          <VisitCounter currentTheme={currentTheme} />
+        </div>
 
         {/* Desktop Nav Items */}
         <nav className="hidden md:flex items-center space-x-8">
