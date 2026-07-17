@@ -65,7 +65,7 @@ export default function VisitCounter({ currentTheme }: VisitCounterProps) {
 
   return (
     <div
-      className={`hidden sm:flex items-center space-x-3 px-2.5 py-1 rounded-lg border text-[11px] font-space tracking-wide ${border}`}
+      className={`flex items-center space-x-3 px-2.5 py-1 rounded-lg border text-[11px] font-space tracking-wide ${border}`}
       title="Live visits / unique devices"
     >
       <span className="flex items-center space-x-1 text-slate-400">
