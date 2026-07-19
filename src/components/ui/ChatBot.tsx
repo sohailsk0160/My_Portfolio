@@ -16,7 +16,6 @@ const QUICK_ACTIONS = [
   { label: "💻 Internships", query: "internships" },
   { label: "🏆 Certificates", query: "certificates" },
   { label: "📄 Resume", query: "resume" },
-  { label: "📧 Contact", query: "contact" },
 ];
 
 function getBotReply(input: string): string {
@@ -59,7 +58,7 @@ function getBotReply(input: string): string {
   }
 
   if (q.includes("contact") || q.includes("email") || q.includes("phone") || q.includes("reach") || q.includes("hire") || q.includes("whatsapp")) {
-    return "📧 Contact Sohail:\n\n• Email: sohailsk0160@gmail.com\n• Phone: +91 8850314221\n• WhatsApp: 8850314221\n• Location: Mumbai, Maharashtra, India\n\nOr use the secure contact form in the Contact section below!";
+    return "📧 To reach Sohail, please use the secure contact form in the Contact section below. His personal details are kept private and are revealed there only after mobile OTP verification.";
   }
 
   if (q.includes("thank") || q.includes("thanks")) {

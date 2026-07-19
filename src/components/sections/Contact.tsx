@@ -8,7 +8,29 @@ interface ContactProps {
 }
 
 export default function Contact({ currentTheme }: ContactProps) {
-  const gmailComposeUrl = "https://mail.google.com/mail/?view=cm&fs=1&to=sohailsk0160@gmail.com";
+  // Real contact coordinates — revealed only after OTP verification
+  const REAL_PHONE = "8850314221";
+  const REAL_EMAIL = "sohailsk0160@gmail.com";
+  const REAL_WHATSAPP = "8850314221";
+  const gmailComposeUrl = `https://mail.google.com/mail/?view=cm&fs=1&to=${REAL_EMAIL}`;
+
+  // Reveal ~25% of a phone number, mask the rest (hide 75%)
+  const maskPhone = (num: string) => {
+    const visible = Math.ceil(num.length * 0.25); // keep first 25%
+    return num.slice(0, visible) + "•".repeat(num.length - visible);
+  };
+
+  // Reveal ~25% of an email, mask the rest (hide 75%)
+  const maskEmail = (email: string) => {
+    const [local, domain] = email.split("@");
+    const visible = Math.max(1, Math.ceil(local.length * 0.25));
+    const maskedLocal = local.slice(0, visible) + "•".repeat(local.length - visible);
+    const dotIndex = domain.lastIndexOf(".");
+    const domainName = domain.slice(0, dotIndex);
+    const tld = domain.slice(dotIndex);
+    const maskedDomain = "•".repeat(domainName.length) + tld;
+    return `${maskedLocal}@${maskedDomain}`;
+  };
   const [form, setForm] = useState({ 
     name: "", 
     email: "", 
@@ -189,6 +211,16 @@ ${form.message}`;
                 Have a project scope, system design proposal, database development task, or simply want to connect? Send a secure message or reach out via direct coordinates.
               </p>
 
+              {!otpVerified && (
+                <div className="flex items-center gap-2 text-[11px] font-mono text-amber-300/80 bg-amber-500/5 border border-amber-500/20 rounded px-3 py-2">
+                  <svg className="w-3.5 h-3.5 flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    <rect x="3" y="11" width="18" height="11" rx="2" ry="2" />
+                    <path d="M7 11V7a5 5 0 0 1 10 0v4" />
+                  </svg>
+                  <span>Contact details are masked for privacy. Verify your mobile via OTP to reveal them fully.</span>
+                </div>
+              )}
+
               <div className="space-y-4 pt-4 border-t border-white/5 font-mono text-xs md:text-sm">
                 
                 {/* Phone */}
@@ -198,9 +230,15 @@ ${form.message}`;
                   </div>
                   <div>
                     <span className="text-[10px] text-white/40 block">PHONE DIRECT</span>
-                    <a href="tel:+918850314221" className="hover:underline hover:text-white">
-                      +91 8850314221
-                    </a>
+                    {otpVerified ? (
+                      <a href={`tel:+91${REAL_PHONE}`} className="hover:underline hover:text-white">
+                        +91 {REAL_PHONE}
+                      </a>
+                    ) : (
+                      <span className="text-slate-400 select-none" title="Verify your mobile via OTP to reveal">
+                        +91 {maskPhone(REAL_PHONE)}
+                      </span>
+                    )}
                   </div>
                 </div>
 
@@ -211,9 +249,15 @@ ${form.message}`;
                   </div>
                   <div>
                     <span className="text-[10px] text-white/40 block">EMAIL ENCRYPTED</span>
-                    <a href={gmailComposeUrl} target="_blank" rel="noreferrer" className="hover:underline hover:text-white">
-                      sohailsk0160@gmail.com
-                    </a>
+                    {otpVerified ? (
+                      <a href={gmailComposeUrl} target="_blank" rel="noreferrer" className="hover:underline hover:text-white">
+                        {REAL_EMAIL}
+                      </a>
+                    ) : (
+                      <span className="text-slate-400 select-none" title="Verify your mobile via OTP to reveal">
+                        {maskEmail(REAL_EMAIL)}
+                      </span>
+                    )}
                   </div>
                 </div>
 
@@ -226,9 +270,15 @@ ${form.message}`;
                   </div>
                   <div>
                     <span className="text-[10px] text-white/40 block">WHATSAPP</span>
-                    <a href="https://wa.me/918850314221" target="_blank" rel="noreferrer" className="hover:underline hover:text-white">
-                      8850314221
-                    </a>
+                    {otpVerified ? (
+                      <a href={`https://wa.me/91${REAL_WHATSAPP}`} target="_blank" rel="noreferrer" className="hover:underline hover:text-white">
+                        {REAL_WHATSAPP}
+                      </a>
+                    ) : (
+                      <span className="text-slate-400 select-none" title="Verify your mobile via OTP to reveal">
+                        {maskPhone(REAL_WHATSAPP)}
+                      </span>
+                    )}
                   </div>
                 </div>
 

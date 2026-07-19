@@ -15,10 +15,9 @@ interface Skill {
 }
 
 export default function Skills({ currentTheme }: SkillProps) {
-  const [activeCategory, setActiveCategory] = useState<string>("all");
+  const [activeCategory, setActiveCategory] = useState<string>("");
 
   const categories = [
-    { id: "all", label: "All Skills", icon: <Cpu className="w-4 h-4" /> },
     { id: "languages", label: "Languages", icon: <Code className="w-4 h-4" /> },
     { id: "web", label: "Web Tech", icon: <Terminal className="w-4 h-4" /> },
     { id: "databases", label: "Databases", icon: <Database className="w-4 h-4" /> },
@@ -68,9 +67,9 @@ export default function Skills({ currentTheme }: SkillProps) {
     { name: "Teamwork", level: 88, category: "soft" },
   ];
 
-  const filteredSkills = activeCategory === "all"
-    ? skillsList
-    : skillsList.filter((s) => s.category === activeCategory);
+  const filteredSkills = activeCategory
+    ? skillsList.filter((s) => s.category === activeCategory)
+    : [];
 
   const getCategoryTheme = (category: string) => {
     switch (category) {
@@ -107,7 +106,7 @@ export default function Skills({ currentTheme }: SkillProps) {
           {categories.map((cat) => (
             <button
               key={cat.id}
-              onClick={() => setActiveCategory(cat.id)}
+              onClick={() => setActiveCategory((prev) => (prev === cat.id ? "" : cat.id))}
               className={`px-4 py-2 rounded-lg border font-space text-xs tracking-wider flex items-center gap-2 transition-all duration-300 interactive-hover
                 ${activeCategory === cat.id
                   ? currentTheme === "cyberpunk"
@@ -124,47 +123,60 @@ export default function Skills({ currentTheme }: SkillProps) {
         </div>
 
         {/* Skill Card Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {filteredSkills.map((skill, idx) => (
-            <div
-              key={idx}
-              className="glass-panel p-6 rounded-xl border border-white/5 hover:border-white/10 hover:shadow-lg transition-all duration-300 flex flex-col justify-between group"
-            >
-              <div className="flex items-center justify-between mb-4">
-                <h4 className="font-space text-base font-semibold text-white group-hover:text-neon-cyan transition-colors">
-                  {skill.name}
-                </h4>
-                {/* Category Badge */}
-                <span className={`text-[10px] uppercase font-mono px-2 py-0.5 rounded border ${getCategoryTheme(skill.category)}`}>
-                  {skill.category}
-                </span>
-              </div>
+        {activeCategory ? (
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {filteredSkills.map((skill, idx) => (
+              <div
+                key={idx}
+                className="glass-panel p-6 rounded-xl border border-white/5 hover:border-white/10 hover:shadow-lg transition-all duration-300 flex flex-col justify-between group"
+              >
+                <div className="flex items-center justify-between mb-4">
+                  <h4 className="font-space text-base font-semibold text-white group-hover:text-neon-cyan transition-colors">
+                    {skill.name}
+                  </h4>
+                  {/* Category Badge */}
+                  <span className={`text-[10px] uppercase font-mono px-2 py-0.5 rounded border ${getCategoryTheme(skill.category)}`}>
+                    {skill.category}
+                  </span>
+                </div>
 
-              {/* Progress Line Bar */}
-              <div className="space-y-2">
-                <div className="flex items-center justify-between text-xs font-mono text-slate-400">
-                  <span>Proficiency</span>
-                  <span className="text-white font-medium">{skill.level}%</span>
-                </div>
-                <div className="w-full h-1.5 rounded-full bg-white/5 overflow-hidden">
-                  <div
-                    className="h-full rounded-full transition-all duration-1000 ease-out"
-                    style={{
-                      width: `${skill.level}%`,
-                      background:
-                        currentTheme === "cyberpunk"
-                          ? "linear-gradient(90deg, #bd00ff, #00f3ff)"
-                          : "linear-gradient(90deg, #00ff66, #00ddff)",
-                      boxShadow: currentTheme === "cyberpunk"
-                        ? "0 0 8px rgba(0, 243, 255, 0.5)"
-                        : "0 0 8px rgba(0, 255, 102, 0.5)",
-                    }}
-                  />
+                {/* Progress Line Bar */}
+                <div className="space-y-2">
+                  <div className="flex items-center justify-between text-xs font-mono text-slate-400">
+                    <span>Proficiency</span>
+                    <span className="text-white font-medium">{skill.level}%</span>
+                  </div>
+                  <div className="w-full h-1.5 rounded-full bg-white/5 overflow-hidden">
+                    <div
+                      className="h-full rounded-full transition-all duration-1000 ease-out"
+                      style={{
+                        width: `${skill.level}%`,
+                        background:
+                          currentTheme === "cyberpunk"
+                            ? "linear-gradient(90deg, #bd00ff, #00f3ff)"
+                            : "linear-gradient(90deg, #00ff66, #00ddff)",
+                        boxShadow: currentTheme === "cyberpunk"
+                          ? "0 0 8px rgba(0, 243, 255, 0.5)"
+                          : "0 0 8px rgba(0, 255, 102, 0.5)",
+                      }}
+                    />
+                  </div>
                 </div>
               </div>
-            </div>
-          ))}
-        </div>
+            ))}
+          </div>
+        ) : (
+          /* Empty prompt shown until a category is selected */
+          <div className="glass-panel py-16 px-6 rounded-xl border border-dashed border-white/10 text-center">
+            <Cpu className="w-10 h-10 mx-auto mb-4 text-neon-cyan/60" />
+            <p className="font-space text-white text-lg font-semibold mb-1">
+              Select a category to reveal skills
+            </p>
+            <p className="font-mono text-xs text-slate-400">
+              Choose one of the filters above to view the related skills and proficiency levels.
+            </p>
+          </div>
+        )}
       </div>
     </section>
   );

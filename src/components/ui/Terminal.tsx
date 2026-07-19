@@ -100,7 +100,7 @@ export default function Terminal() {
         case "help":
           setHistory((prev) => [
             ...prev,
-            { text: "Available commands: 'skills', 'projects', 'contact', 'clear', 'about'", type: "system" }
+            { text: "Available commands: 'skills', 'projects', 'clear', 'about'", type: "system" }
           ]);
           break;
         case "clear":
@@ -122,12 +122,6 @@ export default function Terminal() {
           setHistory((prev) => [
             ...prev,
             { text: "1. House Rental System (Java, SQL, Swing, AWS image backup)\n2. Yoga Pose Detection (Python, TensorFlow, Random Forest, OpenCV)", type: "success" }
-          ]);
-          break;
-        case "contact":
-          setHistory((prev) => [
-            ...prev,
-            { text: "Phone: +91 8850314221 | Email: sohailsk0160@gmail.com | Location: Mumbai", type: "success" }
           ]);
           break;
         default:
