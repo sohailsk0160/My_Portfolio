@@ -114,10 +114,23 @@ export default function Contact({ currentTheme }: ContactProps) {
     setStatusMessage("");
 
     try {
+      // Same stable device id the visit counter uses, so the verified
+      // number is tied to this device in the database.
+      let deviceId: string | null = null;
+      try {
+        deviceId = localStorage.getItem("sohail_dev_device_id");
+        if (!deviceId) {
+          deviceId = crypto.randomUUID();
+          localStorage.setItem("sohail_dev_device_id", deviceId);
+        }
+      } catch {
+        deviceId = null;
+      }
+
       const response = await fetch("/api/otp/verify", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ phoneNumber: form.mobileNumber, otp }),
+        body: JSON.stringify({ phoneNumber: form.mobileNumber, otp, deviceId }),
       });
 
       const data = await response.json();
