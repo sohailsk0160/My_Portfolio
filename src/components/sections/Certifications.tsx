@@ -46,6 +46,12 @@ export default function Certifications({ currentTheme }: CertificationsProps) {
       imageUrl: "https://newimgabc.s3.eu-north-1.amazonaws.com/MongoDBBasics.jpg",
     },
     {
+      title: "SQL and Relational Databases 101",
+      issuer: "IBM",
+      glowColor: "shadow-[0_0_15px_rgba(34,197,94,0.2)] border-green-400/20",
+      imageUrl: "https://newimgabc.s3.eu-north-1.amazonaws.com/SQl.jpg",
+    },
+    {
       title: "Fundamentals of AI/ML",
       issuer: "AWS",
       glowColor: "shadow-[0_0_15px_rgba(250,204,21,0.2)] border-yellow-400/20",
@@ -68,6 +74,12 @@ export default function Certifications({ currentTheme }: CertificationsProps) {
       issuer: "Udemy",
       glowColor: "shadow-[0_0_15px_rgba(189,0,255,0.2)] border-neon-purple/20",
       imageUrl: "https://newimgabc.s3.eu-north-1.amazonaws.com/python.jpg",
+    },
+    {
+      title: "Prompt Engineering for Everyone",
+      issuer: "IBM",
+      glowColor: "shadow-[0_0_15px_rgba(250,204,21,0.2)] border-yellow-400/20",
+      imageUrl: "https://newimgabc.s3.eu-north-1.amazonaws.com/Prompt+Engineering.jpg",
     },
   ];
 

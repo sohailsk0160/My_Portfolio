@@ -50,7 +50,7 @@ function getBotReply(input: string): string {
   }
 
   if (q.includes("certif") || q.includes("course") || q.includes("award") || q.includes("achieve")) {
-    return "🏆 Certifications:\n\n• Fundamentals of Java — Infosys\n• Basics of Python — Infosys\n• Basics of MongoDB — MongoDB\n• Fundamentals of AI/ML — AWS\n• Git & GitHub\n• Internet of Things (IoT) — Infosys\n• Python Programming — Udemy\n\nAchievements: 90.24% in Diploma, 95% in SSC, and Best Student of the Year award!";
+    return "🏆 Certifications:\n\n• Fundamentals of Java — Infosys\n• Basics of Python — Infosys\n• Basics of MongoDB — MongoDB\n• SQL and Relational Databases 101 — Cognitive Class\n• Fundamentals of AI/ML — AWS\n• Git & GitHub\n• Internet of Things (IoT) — Infosys\n• Python Programming — Udemy\n• Prompt Engineering for Everyone — Cognitive Class\n\nAchievements: 90.24% in Diploma, 95% in SSC, and Best Student of the Year award!";
   }
 
   if (q.includes("resume") || q.includes("cv") || q.includes("download")) {
