@@ -17,7 +17,7 @@ interface Project {
 }
 
 interface ProjectsProps {
-  currentTheme: "cyberpunk" | "matrix";
+  currentTheme: "dark" | "light";
 }
 
 export default function Projects({ currentTheme }: ProjectsProps) {
@@ -104,7 +104,7 @@ export default function Projects({ currentTheme }: ProjectsProps) {
   return (
     <section
       id="projects"
-      className="relative py-24 px-6 bg-gradient-to-b from-cyber-dark to-cyber-gray overflow-hidden"
+      className="relative py-24 px-6 bg-[#0b1220] overflow-hidden"
     >
       <div className="absolute top-[20%] right-[10%] w-[300px] h-[300px] bg-neon-purple/5 rounded-full blur-[100px] pointer-events-none" />
 
@@ -117,7 +117,7 @@ export default function Projects({ currentTheme }: ProjectsProps) {
           <h3 className="text-3xl md:text-4xl font-space font-bold text-white">
             Featured Systems & Apps
           </h3>
-          <div className="w-16 h-1 bg-gradient-to-r from-neon-blue to-neon-purple mx-auto mt-4" />
+          <div className="w-16 h-1 bg-[#5aa9ff] mx-auto mt-4" />
         </div>
 
         {/* Filters */}
@@ -126,7 +126,7 @@ export default function Projects({ currentTheme }: ProjectsProps) {
             onClick={() => setFilter("all")}
             className={`px-4 py-2 rounded-lg font-space text-xs tracking-wider border transition-all duration-300 interactive-hover
               ${filter === "all"
-                ? currentTheme === "cyberpunk"
+                ? currentTheme === "dark"
                   ? "border-neon-cyan bg-neon-cyan/10 text-neon-cyan"
                   : "border-green-500 bg-green-500/10 text-green-400"
                 : "border-white/5 bg-white/5 text-slate-400 hover:text-white"
@@ -139,7 +139,7 @@ export default function Projects({ currentTheme }: ProjectsProps) {
             onClick={() => setFilter("java")}
             className={`px-4 py-2 rounded-lg font-space text-xs tracking-wider border transition-all duration-300 interactive-hover
               ${filter === "java"
-                ? currentTheme === "cyberpunk"
+                ? currentTheme === "dark"
                   ? "border-neon-cyan bg-neon-cyan/10 text-neon-cyan"
                   : "border-green-500 bg-green-500/10 text-green-400"
                 : "border-white/5 bg-white/5 text-slate-400 hover:text-white"
@@ -152,7 +152,7 @@ export default function Projects({ currentTheme }: ProjectsProps) {
             onClick={() => setFilter("aiml")}
             className={`px-4 py-2 rounded-lg font-space text-xs tracking-wider border transition-all duration-300 interactive-hover
               ${filter === "aiml"
-                ? currentTheme === "cyberpunk"
+                ? currentTheme === "dark"
                   ? "border-neon-cyan bg-neon-cyan/10 text-neon-cyan"
                   : "border-green-500 bg-green-500/10 text-green-400"
                 : "border-white/5 bg-white/5 text-slate-400 hover:text-white"

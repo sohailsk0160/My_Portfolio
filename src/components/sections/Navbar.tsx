@@ -1,12 +1,12 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
-import { Menu, X, ShieldAlert, Cpu } from "lucide-react";
+import { Menu, X, Moon, Sun } from "lucide-react";
 import VisitCounter from "@/components/ui/VisitCounter";
 
 interface NavbarProps {
-  currentTheme: "cyberpunk" | "matrix";
-  setTheme: (theme: "cyberpunk" | "matrix") => void;
+  currentTheme: "dark" | "light";
+  setTheme: (theme: "dark" | "light") => void;
 }
 
 export default function Navbar({ currentTheme, setTheme }: NavbarProps) {
@@ -72,7 +72,7 @@ export default function Navbar({ currentTheme, setTheme }: NavbarProps) {
   };
 
   const toggleTheme = () => {
-    setTheme(currentTheme === "cyberpunk" ? "matrix" : "cyberpunk");
+    setTheme(currentTheme === "dark" ? "light" : "dark");
   };
 
   return (
@@ -86,10 +86,7 @@ export default function Navbar({ currentTheme, setTheme }: NavbarProps) {
         className="absolute top-0 left-0 h-[2px] transition-all duration-75"
         style={{
           width: `${scrollProgress}%`,
-          background:
-            currentTheme === "cyberpunk"
-              ? "linear-gradient(90deg, #00f3ff, #bd00ff)"
-              : "linear-gradient(90deg, #00ff66, #00ddff)",
+          background: currentTheme === "dark" ? "#5aa9ff" : "#7dd3fc",
         }}
       />
 
@@ -103,15 +100,15 @@ export default function Navbar({ currentTheme, setTheme }: NavbarProps) {
           >
             <span
               className={`w-7 h-7 rounded flex items-center justify-center font-bold text-cyber-dark text-sm transition-all duration-300 ${
-                currentTheme === "cyberpunk"
-                  ? "bg-gradient-to-r from-neon-blue to-neon-purple shadow-[0_0_10px_rgba(0,243,255,0.5)]"
-                  : "bg-gradient-to-r from-green-400 to-neon-cyan shadow-[0_0_10px_rgba(0,255,102,0.5)]"
+                currentTheme === "dark"
+                  ? "bg-[#5aa9ff] shadow-[0_0_10px_rgba(90,169,255,0.5)]"
+                  : "bg-[#7dd3fc] shadow-[0_0_10px_rgba(125,211,252,0.5)]"
               }`}
             >
               S
             </span>
             <span className="text-white hover:text-neon-cyan transition-colors">
-              SOHAIL<span className={currentTheme === "cyberpunk" ? "text-neon-purple" : "text-green-400"}>.DEV</span>
+              SOHAIL<span className={currentTheme === "dark" ? "text-neon-purple" : "text-green-400"}>.DEV</span>
             </span>
           </a>
 
@@ -127,8 +124,8 @@ export default function Navbar({ currentTheme, setTheme }: NavbarProps) {
               href={`#${item.id}`}
               onClick={(e) => handleNavClick(e, item.id)}
               className={`font-space text-sm tracking-wide transition-all duration-300 relative py-1 hover:text-white
-                ${activeSection === item.id 
-                  ? currentTheme === "cyberpunk" ? "text-neon-cyan" : "text-green-400 font-medium" 
+                ${activeSection === item.id
+                  ? currentTheme === "dark" ? "text-neon-cyan" : "text-green-400 font-medium" 
                   : "text-slate-400"
                 }
               `}
@@ -138,8 +135,8 @@ export default function Navbar({ currentTheme, setTheme }: NavbarProps) {
                 <span
                   className="absolute bottom-0 left-0 w-full h-[1px] transition-all duration-300"
                   style={{
-                    backgroundColor: currentTheme === "cyberpunk" ? "#00f3ff" : "#00ff66",
-                    boxShadow: currentTheme === "cyberpunk" 
+                    backgroundColor: currentTheme === "dark" ? "#00f3ff" : "#00ff66",
+                    boxShadow: currentTheme === "dark"
                       ? "0 0 8px #00f3ff" 
                       : "0 0 8px #00ff66"
                   }}
@@ -152,17 +149,17 @@ export default function Navbar({ currentTheme, setTheme }: NavbarProps) {
           <button
             onClick={toggleTheme}
             className={`p-2 rounded-lg border flex items-center justify-center transition-all duration-300 interactive-hover
-              ${currentTheme === "cyberpunk" 
+              ${currentTheme === "dark"
                 ? "border-neon-purple/30 bg-neon-purple/5 text-neon-cyan hover:border-neon-cyan/80 shadow-[0_0_5px_rgba(189,0,255,0.1)]"
                 : "border-green-500/30 bg-green-500/5 text-green-400 hover:border-green-400/80 shadow-[0_0_5px_rgba(0,255,102,0.1)]"
               }
             `}
-            title="Toggle Visual Engine Core"
+            title={currentTheme === "dark" ? "Switch to light mode" : "Switch to dark mode"}
           >
-            {currentTheme === "cyberpunk" ? (
-              <Cpu className="w-4 h-4 animate-spin-slow" />
+            {currentTheme === "dark" ? (
+              <Sun className="w-4 h-4" />
             ) : (
-              <ShieldAlert className="w-4 h-4 animate-pulse" />
+              <Moon className="w-4 h-4" />
             )}
           </button>
         </nav>
@@ -172,13 +169,13 @@ export default function Navbar({ currentTheme, setTheme }: NavbarProps) {
           <button
             onClick={toggleTheme}
             className={`p-2 rounded-lg border text-xs flex items-center justify-center transition-all duration-300
-              ${currentTheme === "cyberpunk" 
+              ${currentTheme === "dark"
                 ? "border-neon-purple/30 text-neon-cyan" 
                 : "border-green-500/30 text-green-400"
               }
             `}
           >
-            {currentTheme === "cyberpunk" ? "CYBER" : "MATRIX"}
+            {currentTheme === "dark" ? "LIGHT" : "DARK"}
           </button>
           <button
             onClick={() => setIsOpen(!isOpen)}
@@ -199,7 +196,7 @@ export default function Navbar({ currentTheme, setTheme }: NavbarProps) {
               onClick={(e) => handleNavClick(e, item.id)}
               className={`font-space text-lg tracking-wider text-left py-2 border-b border-white/5
                 ${activeSection === item.id
-                  ? currentTheme === "cyberpunk" ? "text-neon-cyan font-bold" : "text-green-400 font-bold"
+                  ? currentTheme === "dark" ? "text-neon-cyan font-bold" : "text-green-400 font-bold"
                   : "text-slate-400"
                 }
               `}

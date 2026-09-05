@@ -2,7 +2,11 @@
 
 import React, { useEffect, useState, useRef } from "react";
 
-export default function CustomCursor() {
+interface CustomCursorProps {
+  currentTheme: "dark" | "light";
+}
+
+export default function CustomCursor({ currentTheme }: CustomCursorProps) {
   const [mounted, setMounted] = useState(false);
   const [isHovered, setIsHovered] = useState(false);
   const [isClicking, setIsClicking] = useState(false);
@@ -92,21 +96,41 @@ export default function CustomCursor() {
 
   if (!mounted || !isVisible) return null;
 
+  const isLightTheme = currentTheme === "light";
+
   return (
     <>
       {/* Small center dot */}
       <div
         ref={dotRef}
-        className="fixed top-0 left-0 w-2 h-2 rounded-full bg-neon-cyan z-[9999] pointer-events-none -translate-x-1/2 -translate-y-1/2 transition-transform duration-75 mix-blend-screen"
-        style={{ willChange: "transform" }}
+        className="custom-cursor-dot fixed top-0 left-0 w-2 h-2 rounded-full bg-neon-cyan z-[9999] pointer-events-none -translate-x-1/2 -translate-y-1/2 transition-transform duration-75 mix-blend-screen"
+        style={{
+          willChange: "transform",
+          backgroundColor: isLightTheme ? "#243044" : undefined,
+          mixBlendMode: isLightTheme ? "normal" : undefined,
+        }}
       />
       {/* Outer glowing trail ring */}
       <div
         ref={ringRef}
-        className={`fixed top-0 left-0 rounded-full border border-neon-blue z-[9999] pointer-events-none -translate-x-1/2 -translate-y-1/2 will-change-transform mix-blend-screen transition-all duration-300 ease-out shadow-[0_0_10px_rgba(0,243,255,0.4)]
+        className={`custom-cursor-ring fixed top-0 left-0 rounded-full border border-neon-blue z-[9999] pointer-events-none -translate-x-1/2 -translate-y-1/2 will-change-transform mix-blend-screen transition-all duration-300 ease-out shadow-[0_0_10px_rgba(0,243,255,0.4)]
           ${isHovered ? "w-12 h-12 bg-neon-purple/20 border-neon-purple shadow-[0_0_15px_rgba(189,0,255,0.6)]" : "w-6 h-6"}
           ${isClicking ? "scale-75 bg-neon-pink/30 border-neon-pink shadow-[0_0_20px_rgba(255,0,127,0.8)]" : "scale-100"}
         `}
+        style={isLightTheme ? {
+          borderColor: "#243044",
+          backgroundColor: isClicking
+            ? "rgba(36, 48, 68, 0.14)"
+            : isHovered
+              ? "rgba(36, 48, 68, 0.1)"
+              : undefined,
+          boxShadow: isClicking
+            ? "0 0 20px rgba(36, 48, 68, 0.4)"
+            : isHovered
+              ? "0 0 15px rgba(36, 48, 68, 0.35)"
+              : "0 0 10px rgba(36, 48, 68, 0.28)",
+          mixBlendMode: "normal",
+        } : undefined}
       />
     </>
   );

@@ -4,7 +4,7 @@ import React from "react";
 import { GraduationCap, Calendar, MapPin, Award } from "lucide-react";
 
 interface EducationProps {
-  currentTheme: "cyberpunk" | "matrix";
+  currentTheme: "dark" | "light";
 }
 
 export default function Education({ currentTheme }: EducationProps) {
@@ -41,7 +41,7 @@ export default function Education({ currentTheme }: EducationProps) {
   return (
     <section
       id="education"
-      className="relative py-24 px-6 bg-gradient-to-b from-cyber-dark to-cyber-gray overflow-hidden"
+      className="relative py-24 px-6 bg-[#0b1220] overflow-hidden"
     >
       {/* Background elements */}
       <div className="absolute top-[30%] right-[5%] w-[250px] h-[250px] bg-neon-purple/5 rounded-full blur-[80px] pointer-events-none" />
@@ -55,7 +55,7 @@ export default function Education({ currentTheme }: EducationProps) {
           <h3 className="text-3xl md:text-4xl font-space font-bold text-white">
             Education Journey
           </h3>
-          <div className="w-16 h-1 bg-gradient-to-r from-neon-blue to-neon-purple mx-auto mt-4" />
+          <div className="w-16 h-1 bg-[#5aa9ff] mx-auto mt-4" />
         </div>
 
         {/* Vertical Timeline Structure */}
@@ -67,7 +67,7 @@ export default function Education({ currentTheme }: EducationProps) {
               <div
                 className={`absolute -left-[45px] md:-left-[61px] top-1.5 w-9 h-9 md:w-10 md:h-10 rounded-full flex items-center justify-center border transition-all duration-500 z-10 bg-cyber-dark
                   ${idx === 0
-                    ? currentTheme === "cyberpunk"
+                    ? currentTheme === "dark"
                       ? "border-neon-cyan text-neon-cyan shadow-[0_0_10px_rgba(0,243,255,0.4)]"
                       : "border-green-400 text-green-400 shadow-[0_0_10px_rgba(0,255,102,0.4)]"
                     : "border-white/10 text-slate-400 group-hover:border-neon-purple/50 group-hover:text-neon-purple"
@@ -94,7 +94,7 @@ export default function Education({ currentTheme }: EducationProps) {
                   {/* Score Tag */}
                   <span
                     className={`inline-block px-3 py-1.5 rounded-full text-xs font-mono border self-start md:self-center
-                      ${currentTheme === "cyberpunk"
+                      ${currentTheme === "dark"
                         ? "border-neon-purple/30 bg-neon-purple/5 text-neon-pink"
                         : "border-green-500/30 bg-green-500/5 text-green-400"
                       }

@@ -63,7 +63,7 @@ function Counter({ end, suffix = "", duration = 1500 }: CounterProps) {
 }
 
 interface AboutProps {
-  currentTheme: "cyberpunk" | "matrix";
+  currentTheme: "dark" | "light";
 }
 
 export default function About({ currentTheme }: AboutProps) {
@@ -101,7 +101,7 @@ export default function About({ currentTheme }: AboutProps) {
   return (
     <section
       id="about"
-      className="relative py-24 px-6 bg-gradient-to-b from-cyber-gray to-cyber-dark overflow-hidden"
+      className="relative py-24 px-6 bg-[#111827] overflow-hidden"
     >
       <div className="max-w-7xl mx-auto z-10 relative">
         {/* Section Header */}
@@ -112,7 +112,7 @@ export default function About({ currentTheme }: AboutProps) {
           <h3 className="text-3xl md:text-4xl font-space font-bold text-white">
             About Mohammad Sohail Shaikh
           </h3>
-          <div className="w-16 h-1 bg-gradient-to-r from-neon-blue to-neon-purple mx-auto mt-4" />
+          <div className="w-16 h-1 bg-[#5aa9ff] mx-auto mt-4" />
         </div>
 
         {/* Layout Grid */}
@@ -161,7 +161,7 @@ export default function About({ currentTheme }: AboutProps) {
                 <div className="space-y-1">
                   <div
                     className={`text-3xl font-space font-bold tracking-tight
-                      ${currentTheme === "cyberpunk" ? "text-neon-cyan" : "text-green-400"}
+                      ${currentTheme === "dark" ? "text-neon-cyan" : "text-green-400"}
                     `}
                   >
                     <Counter end={stat.value} suffix={stat.suffix} />

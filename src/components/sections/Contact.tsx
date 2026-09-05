@@ -4,7 +4,7 @@ import React, { useState, useEffect } from "react";
 import { Phone, Mail, Send, Check, X, Loader } from "lucide-react";
 
 interface ContactProps {
-  currentTheme: "cyberpunk" | "matrix";
+  currentTheme: "dark" | "light";
 }
 
 export default function Contact({ currentTheme }: ContactProps) {
@@ -45,6 +45,7 @@ export default function Contact({ currentTheme }: ContactProps) {
   const [isLoading, setIsLoading] = useState(false);
   const [isVerifying, setIsVerifying] = useState(false);
   const [resendTimer, setResendTimer] = useState(0);
+  const [showSourceCodeModal, setShowSourceCodeModal] = useState(false);
 
   // Countdown timer for resend button
   useEffect(() => {
@@ -194,7 +195,7 @@ ${form.message}`;
   return (
     <section
       id="contact"
-      className="relative py-24 px-6 bg-gradient-to-b from-cyber-gray to-cyber-dark overflow-hidden"
+      className="relative py-24 px-6 bg-[#111827] overflow-hidden"
     >
       {/* Background neon elements */}
       <div className="absolute bottom-[10%] right-[10%] w-[300px] h-[300px] bg-neon-cyan/5 rounded-full blur-[100px] pointer-events-none" />
@@ -208,7 +209,7 @@ ${form.message}`;
           <h3 className="text-3xl md:text-4xl font-space font-bold text-white">
             Get In Touch
           </h3>
-          <div className="w-16 h-1 bg-gradient-to-r from-neon-blue to-neon-purple mx-auto mt-4" />
+          <div className="w-16 h-1 bg-[#5aa9ff] mx-auto mt-4" />
         </div>
 
         {/* Content Grid */}
@@ -308,6 +309,14 @@ ${form.message}`;
                     <span>Mumbai, Maharashtra, India</span>
                   </div>
                 </div>
+
+                <button
+                  type="button"
+                  onClick={() => setShowSourceCodeModal(true)}
+                  className="w-full mt-2 px-4 py-3 rounded-lg border border-neon-cyan/30 bg-neon-cyan/10 text-neon-cyan hover:bg-neon-cyan/20 hover:border-neon-cyan/50 transition-colors font-space text-sm font-semibold"
+                >
+                  Download Source Code for ₹2
+                </button>
 
               </div>
             </div>
@@ -490,9 +499,9 @@ ${form.message}`;
                   className={`w-full py-3.5 rounded-lg font-space text-sm font-semibold tracking-wider flex items-center justify-center gap-2 transition-all duration-300 border interactive-hover
                     ${!otpVerified
                       ? "bg-gray-600 border-gray-600 text-gray-400 cursor-not-allowed opacity-50"
-                      : currentTheme === "cyberpunk"
-                      ? "bg-gradient-to-r from-neon-blue to-neon-purple border-transparent text-white shadow-[0_0_10px_rgba(0,243,255,0.2)] hover:shadow-[0_0_15px_rgba(0,243,255,0.4)]"
-                      : "bg-gradient-to-r from-green-500 to-neon-cyan border-transparent text-cyber-dark shadow-[0_0_10px_rgba(0,255,102,0.2)] hover:shadow-[0_0_15px_rgba(0,255,102,0.4)]"
+                      : currentTheme === "dark"
+                      ? "bg-[#5aa9ff] border-transparent text-white shadow-[0_0_10px_rgba(90,169,255,0.2)] hover:shadow-[0_0_15px_rgba(90,169,255,0.4)]"
+                      : "bg-[#7dd3fc] border-transparent text-slate-900 shadow-[0_0_10px_rgba(125,211,252,0.2)] hover:shadow-[0_0_15px_rgba(125,211,252,0.4)]"
                     }
                   `}
                 >
@@ -506,6 +515,44 @@ ${form.message}`;
 
         </div>
       </div>
+
+      {showSourceCodeModal && (
+        <div
+          className="fixed inset-0 z-50 flex items-center justify-center px-6 bg-cyber-dark/80 backdrop-blur-sm"
+          role="dialog"
+          aria-modal="true"
+          aria-labelledby="source-code-modal-title"
+        >
+          <div className="glass-panel w-full max-w-md rounded-xl border border-white/10 p-6 text-left shadow-2xl">
+            <div className="flex items-start justify-between gap-4 mb-4">
+              <div>
+                <p className="text-neon-cyan text-xs font-mono uppercase tracking-wider mb-2">Source Code Access</p>
+                <h4 id="source-code-modal-title" className="text-xl font-space font-bold text-white">
+                  Feature under development
+                </h4>
+              </div>
+              <button
+                type="button"
+                onClick={() => setShowSourceCodeModal(false)}
+                className="text-slate-400 hover:text-white transition-colors text-xl leading-none"
+                aria-label="Close source code dialog"
+              >
+                ×
+              </button>
+            </div>
+            <p className="text-slate-400 text-sm leading-relaxed mb-6">
+              Source code downloads for ₹2 will be available soon. Payment and download access are not active yet.
+            </p>
+            <button
+              type="button"
+              onClick={() => setShowSourceCodeModal(false)}
+              className="w-full px-4 py-3 rounded-lg bg-[#5aa9ff] text-white font-space text-sm font-semibold hover:brightness-110 transition-all"
+            >
+              Close
+            </button>
+          </div>
+        </div>
+      )}
     </section>
   );
 }

@@ -18,7 +18,7 @@ interface Achievement {
 }
 
 interface CertificationsProps {
-  currentTheme: "cyberpunk" | "matrix";
+  currentTheme: "dark" | "light";
 }
 
 export default function Certifications({ currentTheme }: CertificationsProps) {
@@ -135,7 +135,7 @@ export default function Certifications({ currentTheme }: CertificationsProps) {
   return (
     <section
       id="credentials"
-      className="relative py-24 px-6 bg-gradient-to-b from-cyber-dark to-cyber-gray overflow-hidden"
+      className="relative py-24 px-6 bg-[#0b1220] overflow-hidden"
     >
       <div className="absolute top-[20%] left-[5%] w-[250px] h-[250px] bg-neon-purple/5 rounded-full blur-[80px] pointer-events-none" />
 
@@ -150,7 +150,7 @@ export default function Certifications({ currentTheme }: CertificationsProps) {
             <h3 className="text-3xl font-space font-bold text-white">
               Certifications & Achievements
             </h3>
-            <div className="w-16 h-1 bg-gradient-to-r from-neon-blue to-neon-purple mt-4" />
+            <div className="w-16 h-1 bg-[#5aa9ff] mt-4" />
           </div>
 
           {/* Toggle Tabs Buttons */}
@@ -267,7 +267,7 @@ export default function Certifications({ currentTheme }: CertificationsProps) {
                 <div className="space-y-1 mt-4">
                   <div
                     className={`text-2xl font-space font-bold tracking-tight
-                      ${currentTheme === "cyberpunk" ? "text-neon-pink" : "text-green-400"}
+                      ${currentTheme === "dark" ? "text-neon-pink" : "text-green-400"}
                     `}
                   >
                     {item.metric}

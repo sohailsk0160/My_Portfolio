@@ -4,7 +4,7 @@ import React, { useState, useEffect, useRef } from "react";
 import { Eye, MonitorSmartphone } from "lucide-react";
 
 interface VisitCounterProps {
-  currentTheme: "cyberpunk" | "matrix";
+  currentTheme: "dark" | "light";
 }
 
 export default function VisitCounter({ currentTheme }: VisitCounterProps) {
@@ -57,9 +57,9 @@ export default function VisitCounter({ currentTheme }: VisitCounterProps) {
     recordVisit();
   }, []);
 
-  const accent = currentTheme === "cyberpunk" ? "text-neon-cyan" : "text-green-400";
+  const accent = currentTheme === "dark" ? "text-neon-cyan" : "text-green-400";
   const border =
-    currentTheme === "cyberpunk"
+    currentTheme === "dark"
       ? "border-neon-purple/30 bg-neon-purple/5"
       : "border-green-500/30 bg-green-500/5";
 

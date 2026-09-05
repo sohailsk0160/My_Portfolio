@@ -16,7 +16,7 @@ import Certifications from "../components/sections/Certifications";
 import Contact from "../components/sections/Contact";
 
 export default function Home() {
-  const [theme, setTheme] = useState<"cyberpunk" | "matrix">("cyberpunk");
+  const [theme, setTheme] = useState<"dark" | "light">("dark");
   const [isLoading, setIsLoading] = useState(true);
   const [loadingPercent, setLoadingPercent] = useState(0);
   const [loadingLog, setLoadingLog] = useState("Initializing portfolio engine...");
@@ -25,9 +25,9 @@ export default function Home() {
   useEffect(() => {
     const logs = [
       { threshold: 0, text: "Initializing portfolio engine core..." },
-      { threshold: 20, text: "Fetching Mohammad Sohail Shaikh profile nodes..." },
-      { threshold: 45, text: "Establishing secure relational SQL DB linkages..." },
-      { threshold: 70, text: "Starting AIML computer vision neural layers..." },
+      { threshold: 25, text: "Fetching Mohammad Sohail Shaikh profile nodes..." },
+      { threshold: 55, text: "Establishing secure relational SQL DB linkages..." },
+      { threshold: 75, text: "Starting AIML computer vision neural layers..." },
       { threshold: 90, text: "Securing SSH connection shell guest@sohail-shaikh.dev..." },
       { threshold: 100, text: "System connection stable. Access Granted." }
     ];
@@ -36,28 +36,34 @@ export default function Home() {
       setLoadingPercent((prev) => {
         if (prev >= 100) {
           clearInterval(interval);
-          setTimeout(() => setIsLoading(false), 600); // fade out duration
+          setTimeout(() => setIsLoading(false), 250);
           return 100;
         }
-        
-        const nextVal = prev + Math.floor(Math.random() * 8) + 2;
+
+        const nextVal = prev + 12;
         const finalVal = Math.min(nextVal, 100);
-        
-        // Update log text based on thresholds
-        const activeLog = [...logs].reverse().find(l => finalVal >= l.threshold);
+
+        const activeLog = [...logs].reverse().find((l) => finalVal >= l.threshold);
         if (activeLog) {
           setLoadingLog(activeLog.text);
         }
 
+        if (finalVal >= 100) {
+          setTimeout(() => setIsLoading(false), 250);
+        }
+
         return finalVal;
       });
-    }, 80);
+    }, 45);
 
     return () => clearInterval(interval);
   }, []);
 
   return (
-    <div className={`relative min-h-screen select-none ${theme === "matrix" ? "theme-matrix" : ""}`}>
+    <div
+      className={`relative min-h-screen select-none ${theme === "light" ? "theme-light bg-[#f5f3ee]" : "bg-[#0b1220]"}`}
+      data-theme={theme}
+    >
       
       {/* Loading Loader Screen */}
       {isLoading && (
@@ -91,13 +97,10 @@ export default function Home() {
                   className="h-full rounded-full transition-all duration-75 ease-out"
                   style={{
                     width: `${loadingPercent}%`,
-                    background:
-                      theme === "cyberpunk"
-                        ? "linear-gradient(90deg, #bd00ff, #00f3ff)"
-                        : "linear-gradient(90deg, #00ff66, #00ddff)",
-                    boxShadow: theme === "cyberpunk"
-                      ? "0 0 10px rgba(0, 243, 255, 0.6)"
-                      : "0 0 10px rgba(0, 255, 102, 0.6)"
+                    background: theme === "dark" ? "#5aa9ff" : "#7dd3fc",
+                    boxShadow: theme === "dark"
+                      ? "0 0 10px rgba(90, 169, 255, 0.5)"
+                      : "0 0 10px rgba(125, 211, 252, 0.5)"
                   }}
                 />
               </div>
@@ -108,7 +111,7 @@ export default function Home() {
       )}
 
       {/* Trailing custom cursor ring */}
-      <CustomCursor />
+      <CustomCursor currentTheme={theme} />
 
       {/* Physics interactive background */}
       <CanvasParticles />

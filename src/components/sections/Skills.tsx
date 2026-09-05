@@ -4,7 +4,7 @@ import React, { useState } from "react";
 import { Cpu, Terminal, Database, Code, CheckSquare, Settings } from "lucide-react";
 
 interface SkillProps {
-  currentTheme: "cyberpunk" | "matrix";
+  currentTheme: "dark" | "light";
 }
 
 interface Skill {
@@ -85,7 +85,7 @@ export default function Skills({ currentTheme }: SkillProps) {
   return (
     <section
       id="skills"
-      className="relative py-24 px-6 bg-gradient-to-b from-cyber-gray to-cyber-dark overflow-hidden"
+      className="relative py-24 px-6 bg-[#111827] overflow-hidden"
     >
       <div className="absolute bottom-[20%] left-[5%] w-[250px] h-[250px] bg-neon-cyan/5 rounded-full blur-[80px] pointer-events-none" />
 
@@ -98,7 +98,7 @@ export default function Skills({ currentTheme }: SkillProps) {
           <h3 className="text-3xl md:text-4xl font-space font-bold text-white">
             Skills & Core Capabilities
           </h3>
-          <div className="w-16 h-1 bg-gradient-to-r from-neon-blue to-neon-purple mx-auto mt-4" />
+          <div className="w-16 h-1 bg-[#5aa9ff] mx-auto mt-4" />
         </div>
 
         {/* Filters Group */}
@@ -109,7 +109,7 @@ export default function Skills({ currentTheme }: SkillProps) {
               onClick={() => setActiveCategory((prev) => (prev === cat.id ? "" : cat.id))}
               className={`px-4 py-2 rounded-lg border font-space text-xs tracking-wider flex items-center gap-2 transition-all duration-300 interactive-hover
                 ${activeCategory === cat.id
-                  ? currentTheme === "cyberpunk"
+                  ? currentTheme === "dark"
                     ? "border-neon-cyan bg-neon-cyan/10 text-neon-cyan shadow-[0_0_10px_rgba(0,243,255,0.2)] font-semibold"
                     : "border-green-500 bg-green-500/10 text-green-400 shadow-[0_0_10px_rgba(0,255,102,0.2)] font-semibold"
                   : "border-white/5 bg-white/5 text-slate-400 hover:text-white hover:border-white/10"
@@ -151,13 +151,10 @@ export default function Skills({ currentTheme }: SkillProps) {
                       className="h-full rounded-full transition-all duration-1000 ease-out"
                       style={{
                         width: `${skill.level}%`,
-                        background:
-                          currentTheme === "cyberpunk"
-                            ? "linear-gradient(90deg, #bd00ff, #00f3ff)"
-                            : "linear-gradient(90deg, #00ff66, #00ddff)",
-                        boxShadow: currentTheme === "cyberpunk"
-                          ? "0 0 8px rgba(0, 243, 255, 0.5)"
-                          : "0 0 8px rgba(0, 255, 102, 0.5)",
+                        background: currentTheme === "dark" ? "#5aa9ff" : "#7dd3fc",
+                        boxShadow: currentTheme === "dark"
+                          ? "0 0 8px rgba(90, 169, 255, 0.5)"
+                          : "0 0 8px rgba(125, 211, 252, 0.5)",
                       }}
                     />
                   </div>

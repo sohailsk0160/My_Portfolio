@@ -6,7 +6,7 @@ import Terminal from "../ui/Terminal";
 import ResumeDownloadModal from "../ui/ResumeDownloadModal";
 
 interface HeroProps {
-  currentTheme: "cyberpunk" | "matrix";
+  currentTheme: "dark" | "light";
 }
 
 export default function Hero({ currentTheme }: HeroProps) {
@@ -70,7 +70,7 @@ export default function Hero({ currentTheme }: HeroProps) {
   return (
     <section
       id="hero"
-      className="relative min-h-screen flex items-center justify-center pt-24 pb-16 px-6 overflow-hidden bg-gradient-to-b from-cyber-dark to-cyber-gray"
+      className="relative min-h-screen flex items-center justify-center pt-24 pb-16 px-6 overflow-hidden bg-[#0b1220]"
     >
       {/* Background neon light blob overlays */}
       <div className="absolute top-[20%] left-[10%] w-[300px] h-[300px] bg-neon-blue/10 rounded-full blur-[100px] pointer-events-none animate-pulse-slow" />
@@ -83,22 +83,11 @@ export default function Hero({ currentTheme }: HeroProps) {
         
         {/* Left Column: Heading Copy */}
         <div className="lg:col-span-6 text-left space-y-6">
-          <div
-            className={`inline-block px-3 py-1.5 rounded-full border text-xs tracking-wider font-space uppercase
-              ${currentTheme === "cyberpunk"
-                ? "border-neon-cyan/30 bg-neon-cyan/5 text-neon-cyan shadow-[0_0_8px_rgba(0,243,255,0.1)]"
-                : "border-green-500/30 bg-green-500/5 text-green-400 shadow-[0_0_8px_rgba(0,255,102,0.1)]"
-              }
-            `}
-          >
-            🚀 Open to exciting opportunities
-          </div>
-
           <h1 className="text-4xl md:text-5xl lg:text-6xl font-space font-bold tracking-tight text-white leading-tight">
             Hi, I&apos;m{" "}
             <span
               className={`transition-all duration-500 ${
-                currentTheme === "cyberpunk" ? "gradient-text-neon" : "gradient-text-cyan-blue"
+                currentTheme === "dark" ? "gradient-text-neon" : "gradient-text-cyan-blue"
               }`}
             >
               Mohammad Sohail
@@ -186,9 +175,9 @@ export default function Hero({ currentTheme }: HeroProps) {
             <button
               onClick={() => scrollToSection("projects")}
               className={`px-6 py-3 rounded-lg font-space text-sm font-semibold tracking-wide flex items-center justify-center gap-2 group transition-all duration-300 border interactive-hover
-                ${currentTheme === "cyberpunk"
-                  ? "bg-gradient-to-r from-neon-blue to-neon-purple border-transparent text-white shadow-[0_0_15px_rgba(0,243,255,0.3)] hover:shadow-[0_0_20px_rgba(0,243,255,0.5)]"
-                  : "bg-gradient-to-r from-green-500 to-neon-cyan border-transparent text-cyber-dark shadow-[0_0_15px_rgba(0,255,102,0.3)] hover:shadow-[0_0_20px_rgba(0,255,102,0.5)]"
+                ${currentTheme === "dark"
+                  ? "bg-[#5aa9ff] border-transparent text-white shadow-[0_0_15px_rgba(90,169,255,0.25)] hover:shadow-[0_0_20px_rgba(90,169,255,0.4)]"
+                  : "bg-[#7dd3fc] border-transparent text-slate-900 shadow-[0_0_15px_rgba(125,211,252,0.25)] hover:shadow-[0_0_20px_rgba(125,211,252,0.4)]"
                 }
               `}
             >

@@ -9,6 +9,14 @@ export default function CanvasParticles() {
     const canvas = canvasRef.current;
     if (!canvas) return;
 
+    const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const isTouchDevice = window.matchMedia("(pointer: coarse)").matches;
+
+    if (prefersReducedMotion || isTouchDevice) {
+      canvas.style.display = "none";
+      return;
+    }
+
     const ctx = canvas.getContext("2d");
     if (!ctx) return;
 
@@ -41,21 +49,17 @@ export default function CanvasParticles() {
       }
 
       update(w: number, h: number) {
-        // Bounce off walls
         if (this.x < 0 || this.x > w) this.vx = -this.vx;
         if (this.y < 0 || this.y > h) this.vy = -this.vy;
 
-        // Move
         this.x += this.vx;
         this.y += this.vy;
 
-        // Cursor attraction / push
         if (mouse.x !== null && mouse.y !== null) {
           const dx = this.x - mouse.x;
           const dy = this.y - mouse.y;
           const distance = Math.sqrt(dx * dx + dy * dy);
           if (distance < mouse.radius) {
-            // Push particles away slightly
             const force = (mouse.radius - distance) / mouse.radius;
             this.x += (dx / distance) * force * 1.5;
             this.y += (dy / distance) * force * 1.5;
@@ -71,7 +75,7 @@ export default function CanvasParticles() {
       canvas.height = h;
 
       particles = [];
-      const numberOfParticles = Math.min(100, Math.floor((w * h) / 15000));
+      const numberOfParticles = Math.min(45, Math.max(18, Math.floor((w * h) / 22000)));
       for (let i = 0; i < numberOfParticles; i++) {
         particles.push(new Particle(w, h));
       }
@@ -82,38 +86,37 @@ export default function CanvasParticles() {
       const h = canvas.height;
       ctx.clearRect(0, 0, w, h);
 
-      // Connect lines
       for (let i = 0; i < particles.length; i++) {
-        particles[i].update(w, h);
-        particles[i].draw(ctx);
+        const particle = particles[i];
+        particle.update(w, h);
+        particle.draw(ctx);
 
         for (let j = i + 1; j < particles.length; j++) {
-          const dx = particles[i].x - particles[j].x;
-          const dy = particles[i].y - particles[j].y;
+          const nextParticle = particles[j];
+          const dx = particle.x - nextParticle.x;
+          const dy = particle.y - nextParticle.y;
           const distance = Math.sqrt(dx * dx + dy * dy);
 
-          if (distance < 120) {
+          if (distance < 90) {
             ctx.beginPath();
-            ctx.moveTo(particles[i].x, particles[i].y);
-            ctx.lineTo(particles[j].x, particles[j].y);
-            // Gradient connecting lines
-            const alpha = (120 - distance) / 120 * 0.15;
+            ctx.moveTo(particle.x, particle.y);
+            ctx.lineTo(nextParticle.x, nextParticle.y);
+            const alpha = ((90 - distance) / 90) * 0.1;
             ctx.strokeStyle = `rgba(0, 243, 255, ${alpha})`;
             ctx.lineWidth = 0.5;
             ctx.stroke();
           }
         }
 
-        // Draw connections to cursor
         if (mouse.x !== null && mouse.y !== null) {
-          const dx = particles[i].x - mouse.x;
-          const dy = particles[i].y - mouse.y;
+          const dx = particle.x - mouse.x;
+          const dy = particle.y - mouse.y;
           const distance = Math.sqrt(dx * dx + dy * dy);
           if (distance < mouse.radius) {
             ctx.beginPath();
-            ctx.moveTo(particles[i].x, particles[i].y);
+            ctx.moveTo(particle.x, particle.y);
             ctx.lineTo(mouse.x, mouse.y);
-            const alpha = (mouse.radius - distance) / mouse.radius * 0.25;
+            const alpha = ((mouse.radius - distance) / mouse.radius) * 0.25;
             ctx.strokeStyle = `rgba(189, 0, 255, ${alpha})`;
             ctx.lineWidth = 0.7;
             ctx.stroke();
